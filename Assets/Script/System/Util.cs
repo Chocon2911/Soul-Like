@@ -57,27 +57,6 @@ public class Util
         isGround = false;
     }
 
-    public void CheckIsGround(CapsuleCollider2D groundCol, LayerMask layer, string tag, ref bool prevIsGround, ref bool isGround, Vector2 scale)
-    {
-        Vector2 size = groundCol.size * scale;
-        Vector2 pos = groundCol.transform.position;
-        CapsuleDirection2D dir = groundCol.direction;
-        float angle = 0;
-
-        Collider2D[] targetCols = Physics2D.OverlapCapsuleAll(pos, size, dir, angle, layer);
-
-        foreach (Collider2D targetCol in targetCols)
-        {
-            if (targetCol.tag != tag) continue;
-            prevIsGround = isGround;
-            isGround = true;
-            return;
-        }
-
-        prevIsGround = isGround;
-        isGround = false;
-    }
-
     public Transform ShootRaycast(float distance, LayerMask layer, string tag, Vector2 start, Vector2 dir)
     {
         RaycastHit2D[] hits = Physics2D.RaycastAll(start, dir.normalized, distance, layer);
@@ -104,21 +83,23 @@ public class Util
         rb.velocity = dir * speed;
     }
 
-    public void FlyingWithAcceleration(Rigidbody2D rb, Vector2 dir, float speed, float speedUpTime, float slowDownTime)
+    public void MovingWithAcceleration(Rigidbody2D rb, Vector2 dir, float speed, float speedUpTime, float slowDownTime)
     {
         float xVel = rb.velocity.x;
         float yVel = rb.velocity.y;
 
         // x dir
-        int xDir = dir.x > 0 ? 1 : -1;
-        if (xDir <= Mathf.Pow(0.1f, 3) && xDir >= -Mathf.Pow(0.1f, 3)) xDir = 0;
-        float xSpeed = Mathf.Abs(dir.x * speed);
+        int xDir = 0;
+        if (dir.x <= Mathf.Pow(0.1f, 1) && dir.x >= -Mathf.Pow(0.1f, 1)) xDir = 0;
+        else xDir = dir.x > 0 ? 1 : -1;
+        float xSpeed = Mathf.Abs(speed);
         this.MovingWithAccelerationInHorizontal(rb, xDir, xSpeed, speedUpTime, slowDownTime);
 
         // y dir
-        int yDir = dir.y > 0 ? 1 : -1;
-        if (yDir <= Mathf.Pow(0.1f, 3) && yDir >= -Mathf.Pow(0.1f, 3)) yDir = 0;
-        float ySpeed = Mathf.Abs(dir.y * speed);
+        int yDir = 0;
+        if (dir.y <= Mathf.Pow(0.1f, 3) && dir.y >= -Mathf.Pow(0.1f, 3)) yDir = 0;
+        else yDir = dir.y > 0 ? 1 : -1;
+        float ySpeed = Mathf.Abs(speed);
         this.MovingWithAccelerationInVertical(rb, yDir, ySpeed, speedUpTime, slowDownTime);
     }
 

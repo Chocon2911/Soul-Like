@@ -5,29 +5,34 @@ using UnityEngine;
 public class Inventory : HuyMonoBehaviour
 {
     //==========================================Variable==========================================
-    [SerializeField] protected Transform container;
-    [SerializeField] protected List<InventoryItem> inventoryItems;
+    [SerializeField] protected List<InventoryItem> inventoryItems = new List<InventoryItem>();
     [SerializeField] protected int maxCap;
 
+    //===========================================Unity============================================
     public override void LoadComponents()
     {
         base.LoadComponents();
-        this.LoadComponent(ref this.container, transform.Find("Container"), "LoadContainer()");
+    }
+
+    //===========================================Method===========================================
+    public InventoryItem AddItem(DroppedItem item)
+    {
+        return this.AddItem(item.Item);
     }
 
     public InventoryItem AddItem(InventoryItem item)
     {
-        int amountLeft = item.CurrAmount;
+        int amountLeft = item.currAmount;
 
         foreach (InventoryItem inventoryItem in this.inventoryItems)
         {
-            if (inventoryItem.ItemName == item.ItemName && inventoryItem.CurrAmount < inventoryItem.MaxAmount)
+            if (inventoryItem.itemName == item.itemName && inventoryItem.currAmount < inventoryItem.maxAmount)
             {
-                inventoryItem.CurrAmount += amountLeft;
-                if (inventoryItem.CurrAmount > inventoryItem.MaxAmount)
+                inventoryItem.currAmount += amountLeft;
+                if (inventoryItem.currAmount > inventoryItem.maxAmount)
                 {
-                    amountLeft = inventoryItem.MaxAmount - inventoryItem.CurrAmount;
-                    inventoryItem.CurrAmount = inventoryItem.MaxAmount;
+                    amountLeft = inventoryItem.maxAmount - inventoryItem.currAmount;
+                    inventoryItem.currAmount = inventoryItem.maxAmount;
                 }
             }
         }
@@ -35,9 +40,9 @@ public class Inventory : HuyMonoBehaviour
         if (this.inventoryItems.Count < maxCap)
         {
             this.inventoryItems.Add(item);
-            item.transform.parent = this.container;
+            return null;
         }
 
-        return null;
+        return item;
     }
 }

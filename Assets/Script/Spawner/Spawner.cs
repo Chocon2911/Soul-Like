@@ -5,6 +5,7 @@ using UnityEngine;
 
 public abstract class Spawner : HuyMonoBehaviour
 {
+    //==========================================Variable==========================================
     [Header("Spawner")]
     [SerializeField] protected Transform prefabObj;
     public Transform PrefabObj => prefabObj;

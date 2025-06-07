@@ -54,12 +54,18 @@ public class HaThu : HuyMonoBehaviour
     {
         int yDir;
         int xDir;
+        
+        
         if (Input.GetKey(KeyCode.W)) yDir = 1;
         else if (Input.GetKey(KeyCode.S)) yDir = -1;
         else yDir = 0;
 
+        
+        if (Input.GetKey(KeyCode.D)) xDir = 1;
+        else if (Input.GetKey(KeyCode.A)) xDir = -1;
+        else xDir = 0;
 
-        this.moveDir = new Vector2(this.moveDir.x, yDir);
+        this.moveDir = new Vector2(xDir, yDir);
         this.rb.velocity = this.moveDir * this.moveSpeed;
     }
 }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: TX Struct 1_213
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 879999879, guid: 3423692cba66c6a44951968873e1488f, type: 3}
+  m_Sprite: {fileID: 879999879, guid: bccb2f1f2cd140544a32840b4be5577a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1

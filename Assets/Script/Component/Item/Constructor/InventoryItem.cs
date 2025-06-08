@@ -7,6 +7,7 @@ using UnityEngine;
 public class InventoryItem
 {
     [Header("===Inventory Item===")]
+    public string id;
     public string itemName;
     public Sprite icon;
     public ItemType itemType;

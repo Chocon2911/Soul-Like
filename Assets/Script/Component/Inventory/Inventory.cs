@@ -45,4 +45,9 @@ public class Inventory : HuyMonoBehaviour
 
         return item;
     }
+
+    public void DropItem(InventoryItem item) 
+    {
+        
+    }
 }

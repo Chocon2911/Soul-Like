@@ -8,7 +8,7 @@ public class Player : HuyMonoBehaviour
     //==========================================Variable==========================================
     [Header("Component")]
     [SerializeField] protected Rigidbody2D rb;
-    [SerializeField] protected Inventory inventory;
+    [SerializeField] protected Inventorys inventory;
 
     [Header("Move")]
     [SerializeField] protected float slowDownTime;
@@ -20,6 +20,10 @@ public class Player : HuyMonoBehaviour
     [SerializeField] protected LayerMask itemLayer;
     [SerializeField] protected LayerMask wallLayer;
     [SerializeField] protected List<string> itemTags = new List<string>();
+
+    //==========================================Get Set===========================================
+    //===Component===
+    public Inventorys Inventory => this.inventory;
 
     //===========================================Unity============================================
     public override void LoadComponents()
@@ -118,7 +122,7 @@ public class Player : HuyMonoBehaviour
         if (!this.itemTags.Contains(collision.tag)) return;
         Debug.Log("Bro");
         DroppedItem droppedItem = collision.GetComponent<DroppedItem>();
-        InventoryItem leftItem = this.inventory.AddItem(droppedItem);
+        InventoryItems leftItem = this.inventory.AddItem(droppedItem);
 
         if (leftItem == null) DroppedItemSpawner.Instance.Despawn(droppedItem.transform);
         else droppedItem.CopyStat(leftItem);

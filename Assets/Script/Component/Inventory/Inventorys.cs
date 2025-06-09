@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inventory : HuyMonoBehaviour
+public class Inventorys : HuyMonoBehaviour
 {
     //==========================================Variable==========================================
-    [SerializeField] protected List<InventoryItem> inventoryItems = new List<InventoryItem>();
+    [SerializeField] protected List<InventoryItems> inventoryItems = new List<InventoryItems>();
     [SerializeField] protected int maxCap;
 
     //===========================================Unity============================================
@@ -15,16 +15,16 @@ public class Inventory : HuyMonoBehaviour
     }
 
     //===========================================Method===========================================
-    public InventoryItem AddItem(DroppedItem item)
+    public InventoryItems AddItem(DroppedItem item)
     {
         return this.AddItem(item.Item);
     }
 
-    public InventoryItem AddItem(InventoryItem item)
+    public InventoryItems AddItem(InventoryItems item)
     {
         int amountLeft = item.currAmount;
 
-        foreach (InventoryItem inventoryItem in this.inventoryItems)
+        foreach (InventoryItems inventoryItem in this.inventoryItems)
         {
             if (inventoryItem.itemName == item.itemName && inventoryItem.currAmount < inventoryItem.maxAmount)
             {
@@ -46,7 +46,7 @@ public class Inventory : HuyMonoBehaviour
         return item;
     }
 
-    public void DropItem(InventoryItem item) 
+    public void DropItem(InventoryItems item) 
     {
         
     }

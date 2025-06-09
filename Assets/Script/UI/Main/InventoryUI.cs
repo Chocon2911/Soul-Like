@@ -9,8 +9,10 @@ public class InventoryUI : HuyMonoBehaviour
     public static InventoryUI Instance => instance;
 
     [SerializeField] private GridLayout grid;
-    [SerializeField] private List<DraggableItemUI> slots;
+    [SerializeField] private List<InventoryItemUI> items;
+    [SerializeField] private List<InventorySlotUI> slots;
     [SerializeField] private Canvas canvas;
+    [SerializeField] private string inventorySlotName;
 
     //==========================================Get Set===========================================
     public Canvas Canvas => this.canvas;
@@ -38,8 +40,11 @@ public class InventoryUI : HuyMonoBehaviour
     }
 
     //===========================================Method===========================================
-    public virtual void AddItem(InventoryItem newItem)
+    public virtual void Show()
     {
+        foreach (InventorySlotUI slot in this.slots)
+        {
 
+        }
     }
 }

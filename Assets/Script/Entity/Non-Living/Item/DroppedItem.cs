@@ -7,13 +7,13 @@ public class DroppedItem : HuyMonoBehaviour
 {
     //==========================================Variable==========================================
     [Header("===Dropped Item===")]
-    [SerializeField] protected InventoryItem item;
+    [SerializeField] protected InventoryItems item;
     [SerializeField] protected Rigidbody2D rb;
     [SerializeField] protected CircleCollider2D bodyCol;
     [SerializeField] protected float moveSpeed;
 
     //==========================================Get Set===========================================
-    public InventoryItem Item { get => item; set => item = value; }
+    public InventoryItems Item { get => item; set => item = value; }
 
     //===========================================Unity============================================
     public override void LoadComponents()
@@ -31,7 +31,7 @@ public class DroppedItem : HuyMonoBehaviour
         this.rb.MovePosition(newPos);
     }
 
-    public virtual void CopyStat(InventoryItem newItem)
+    public virtual void CopyStat(InventoryItems newItem)
     {
         this.item = newItem;
     }

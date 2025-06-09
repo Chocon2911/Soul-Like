@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class InventoryItem
+public class InventoryItems
 {
     [Header("===Inventory Item===")]
     public string id;

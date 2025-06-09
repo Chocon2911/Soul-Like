@@ -4,18 +4,17 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class DraggableItemUI : HuyMonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class InventoryItemUI : HuyMonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     //==========================================Variable==========================================
-    public Transform currSlot;
+    public InventorySlotUI currSlot;
     private InventoryUI inventoryUI;
-    private CanvasGroup canvasGroup;
     private RectTransform rectTransform;
     private Image icon;
-    private InventoryItem item;
+    private InventoryItems item;
     private string inventorySlotTag;
 
-    public InventoryItem Item 
+    public InventoryItems Item 
     {
         get
         {
@@ -33,16 +32,14 @@ public class DraggableItemUI : HuyMonoBehaviour, IBeginDragHandler, IDragHandler
     {
         base.LoadComponents();
         this.LoadComponent(ref this.rectTransform, transform, "LoadRectTransform()");
-        this.LoadComponent(ref this.canvasGroup, transform, "LoadCanvasGroup()");
         this.LoadComponent(ref this.inventoryUI, transform.parent.parent, "LoadInventoryUI()");
     }
 
     //=========================================Interface==========================================
     public void OnBeginDrag(PointerEventData eventData)
     {
-        this.currSlot = transform.parent;
+        this.currSlot = transform.parent.GetComponent<InventorySlotUI>();
         this.transform.SetParent(this.inventoryUI.transform);
-        this.canvasGroup.blocksRaycasts = false;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -52,17 +49,17 @@ public class DraggableItemUI : HuyMonoBehaviour, IBeginDragHandler, IDragHandler
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        this.canvasGroup.blocksRaycasts = true;
         GameObject target = eventData.pointerEnter;
 
         if (target != null && target.CompareTag(this.inventorySlotTag))
         {
             transform.SetParent(target.transform);
+            this.currSlot = target.GetComponent<InventorySlotUI>();
             this.rectTransform.anchoredPosition = Vector2.zero;
         }
         else
         {
-            transform.SetParent(this.currSlot);
+            transform.SetParent(this.currSlot.transform);
             this.rectTransform.anchoredPosition = Vector2.zero;
         }
     }

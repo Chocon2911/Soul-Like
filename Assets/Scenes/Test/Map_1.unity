@@ -496,41 +496,6 @@ Transform:
   - {fileID: 1416389619}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &202692340
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 202692341}
-  m_Layer: 5
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &202692341
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 202692340}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1674540508}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &225828210
 GameObject:
   m_ObjectHideFlags: 0
@@ -662,13 +627,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d27a6fb7209feb546a35b5a000f83fa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    id: 
-    itemName: 
-    icon: {fileID: 0}
-    itemType: 0
-    maxAmount: 0
-    currAmount: 0
   rb: {fileID: 286830374}
   bodyCol: {fileID: 286830375}
   moveSpeed: 10
@@ -781,13 +739,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d27a6fb7209feb546a35b5a000f83fa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    id: 
-    itemName: 
-    icon: {fileID: 0}
-    itemType: 0
-    maxAmount: 0
-    currAmount: 0
   rb: {fileID: 330789120}
   bodyCol: {fileID: 330789121}
   moveSpeed: 10
@@ -984,13 +935,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d27a6fb7209feb546a35b5a000f83fa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    id: 
-    itemName: 
-    icon: {fileID: 0}
-    itemType: 0
-    maxAmount: 0
-    currAmount: 0
   rb: {fileID: 356829395}
   bodyCol: {fileID: 356829396}
   moveSpeed: 10
@@ -1103,13 +1047,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d27a6fb7209feb546a35b5a000f83fa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    id: 
-    itemName: 
-    icon: {fileID: 0}
-    itemType: 0
-    maxAmount: 0
-    currAmount: 0
   rb: {fileID: 357937899}
   bodyCol: {fileID: 357937900}
   moveSpeed: 10
@@ -66577,13 +66514,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d27a6fb7209feb546a35b5a000f83fa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    id: 
-    itemName: 
-    icon: {fileID: 0}
-    itemType: 0
-    maxAmount: 0
-    currAmount: 0
   rb: {fileID: 463193217}
   bodyCol: {fileID: 463193218}
   moveSpeed: 10
@@ -66788,13 +66718,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d27a6fb7209feb546a35b5a000f83fa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    id: 
-    itemName: 
-    icon: {fileID: 0}
-    itemType: 0
-    maxAmount: 0
-    currAmount: 0
   rb: {fileID: 584260335}
   bodyCol: {fileID: 584260336}
   moveSpeed: 10
@@ -66907,13 +66830,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d27a6fb7209feb546a35b5a000f83fa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    id: 
-    itemName: 
-    icon: {fileID: 0}
-    itemType: 0
-    maxAmount: 0
-    currAmount: 0
   rb: {fileID: 663551268}
   bodyCol: {fileID: 663551269}
   moveSpeed: 10
@@ -67156,13 +67072,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d27a6fb7209feb546a35b5a000f83fa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    id: 
-    itemName: 
-    icon: {fileID: 0}
-    itemType: 0
-    maxAmount: 0
-    currAmount: 0
   rb: {fileID: 807746199}
   bodyCol: {fileID: 807746200}
   moveSpeed: 10
@@ -67807,11 +67716,11 @@ RectTransform:
   m_LocalScale: {x: 5, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2052267166}
+  m_Father: {fileID: 1932012477}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 400, y: -225}
+  m_AnchoredPosition: {x: 249.99998, y: -150}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1157149869
@@ -67899,13 +67808,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d27a6fb7209feb546a35b5a000f83fa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    id: 
-    itemName: 
-    icon: {fileID: 0}
-    itemType: 0
-    maxAmount: 0
-    currAmount: 0
   rb: {fileID: 1184183174}
   bodyCol: {fileID: 1184183175}
   moveSpeed: 10
@@ -68064,13 +67966,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d27a6fb7209feb546a35b5a000f83fa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    id: 
-    itemName: 
-    icon: {fileID: 0}
-    itemType: 0
-    maxAmount: 0
-    currAmount: 0
   rb: {fileID: 1259848065}
   bodyCol: {fileID: 1259848066}
   moveSpeed: 10
@@ -68685,13 +68580,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d27a6fb7209feb546a35b5a000f83fa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    id: 
-    itemName: 
-    icon: {fileID: 0}
-    itemType: 0
-    maxAmount: 0
-    currAmount: 0
   rb: {fileID: 1352537713}
   bodyCol: {fileID: 1352537714}
   moveSpeed: 10
@@ -69212,13 +69100,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d27a6fb7209feb546a35b5a000f83fa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    id: 
-    itemName: 
-    icon: {fileID: 0}
-    itemType: 0
-    maxAmount: 0
-    currAmount: 0
   rb: {fileID: 1563863719}
   bodyCol: {fileID: 1563863720}
   moveSpeed: 10
@@ -74730,17 +74611,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1674540507}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 202692341}
-  m_Father: {fileID: 2052267166}
+  m_Children: []
+  m_Father: {fileID: 1932012477}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.12876886}
   m_SizeDelta: {x: 400, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1674540509
@@ -75103,6 +74983,43 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1932012476
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1932012477}
+  m_Layer: 5
+  m_Name: Content
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1932012477
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1932012476}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1157149868}
+  - {fileID: 1674540508}
+  m_Father: {fileID: 2052267166}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -0.12876892}
+  m_SizeDelta: {x: 500, y: 300}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1938830114
 GameObject:
   m_ObjectHideFlags: 0
@@ -75424,13 +75341,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d27a6fb7209feb546a35b5a000f83fa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    id: 
-    itemName: 
-    icon: {fileID: 0}
-    itemType: 0
-    maxAmount: 0
-    currAmount: 0
   rb: {fileID: 2022015312}
   bodyCol: {fileID: 2022015313}
   moveSpeed: 10
@@ -75543,13 +75453,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d27a6fb7209feb546a35b5a000f83fa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    id: 
-    itemName: 
-    icon: {fileID: 0}
-    itemType: 0
-    maxAmount: 0
-    currAmount: 0
   rb: {fileID: 2037917055}
   bodyCol: {fileID: 2037917056}
   moveSpeed: 10
@@ -75646,8 +75549,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1157149868}
-  - {fileID: 1674540508}
+  - {fileID: 1932012477}
   m_Father: {fileID: 84278310}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -75765,13 +75667,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d27a6fb7209feb546a35b5a000f83fa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
-    id: 
-    itemName: 
-    icon: {fileID: 0}
-    itemType: 0
-    maxAmount: 0
-    currAmount: 0
   rb: {fileID: 2092998616}
   bodyCol: {fileID: 2092998617}
   moveSpeed: 10

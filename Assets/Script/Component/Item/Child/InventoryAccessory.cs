@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryAccessory : InventoryItems
+public class InventoryAccessory : InventoryItem
 {
     [Header("===Accesory===")]
     public AccesoryCode code;

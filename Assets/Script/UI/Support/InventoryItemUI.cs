@@ -4,26 +4,28 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class InventoryItemUI : HuyMonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class InventoryItemUI : HuyMonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     //==========================================Variable==========================================
     public InventorySlotUI currSlot;
     private InventoryUI inventoryUI;
     private RectTransform rectTransform;
     private Image icon;
-    private InventoryItems item;
+    private InventoryItem item;
+    private Transform dragArea;
     private string inventorySlotTag;
 
-    public InventoryItems Item 
+    //==========================================Get Set===========================================
+    public InventoryItem Item 
     {
         get
         {
-            return item;
+            return this.item;
         }
         set
         {
             this.icon.sprite = value.icon;
-            item = value;
+            this.item = value;
         }
     }
 
@@ -33,21 +35,43 @@ public class InventoryItemUI : HuyMonoBehaviour, IBeginDragHandler, IDragHandler
         base.LoadComponents();
         this.LoadComponent(ref this.rectTransform, transform, "LoadRectTransform()");
         this.LoadComponent(ref this.inventoryUI, transform.parent.parent, "LoadInventoryUI()");
+        this.LoadComponent(ref this.icon, transform, "LoadIcon()");
+    }
+
+    public void Default(InventoryItem inventoryItem, Transform dragArea)
+    {
+        this.item = inventoryItem;
+        this.dragArea = dragArea;
+        this.icon.sprite = inventoryItem.icon;
     }
 
     //=========================================Interface==========================================
-    public void OnBeginDrag(PointerEventData eventData)
+    void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            InventoryUI.Instance.CarriedInventoryItemUI = this;
+            transform.SetParent(this.dragArea);
+        }
+        else if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            //TODO: Display item info
+            Debug.Log("Right Click on Item", gameObject);
+        }
+    }
+
+    void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
     {
         this.currSlot = transform.parent.GetComponent<InventorySlotUI>();
         this.transform.SetParent(this.inventoryUI.transform);
     }
 
-    public void OnDrag(PointerEventData eventData)
+    void IDragHandler.OnDrag(PointerEventData eventData)
     {
         this.rectTransform.anchoredPosition += eventData.delta / this.inventoryUI.Canvas.scaleFactor;
     }
 
-    public void OnEndDrag(PointerEventData eventData)
+    void IEndDragHandler.OnEndDrag(PointerEventData eventData)
     {
         GameObject target = eventData.pointerEnter;
 

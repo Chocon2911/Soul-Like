@@ -7,13 +7,13 @@ public class DroppedItem : HuyMonoBehaviour
 {
     //==========================================Variable==========================================
     [Header("===Dropped Item===")]
-    [SerializeField] protected InventoryItems item;
+    [SerializeField] protected Item item;
     [SerializeField] protected Rigidbody2D rb;
     [SerializeField] protected CircleCollider2D bodyCol;
     [SerializeField] protected float moveSpeed;
 
     //==========================================Get Set===========================================
-    public InventoryItems Item { get => item; set => item = value; }
+    public Item Item { get => item; set => item = value; }
 
     //===========================================Unity============================================
     public override void LoadComponents()
@@ -29,10 +29,5 @@ public class DroppedItem : HuyMonoBehaviour
         if (target == null) return;
         Vector2 newPos = Vector2.Lerp(transform.position, target.position, this.moveSpeed * Time.deltaTime);
         this.rb.MovePosition(newPos);
-    }
-
-    public virtual void CopyStat(InventoryItems newItem)
-    {
-        this.item = newItem;
     }
 }

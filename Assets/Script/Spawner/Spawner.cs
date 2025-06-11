@@ -92,7 +92,7 @@ public abstract class Spawner : HuyMonoBehaviour
     protected virtual Transform Spawn(Transform obj, Vector3 spawnPos, Quaternion spawnRot)
     {
         Transform newObj = this.GetObjFromHolder(obj);
-        newObj.SetParent(this.holderObj);
+        newObj.SafeSetParent(this.holderObj);
         newObj.SetPositionAndRotation(spawnPos, spawnRot);
         return newObj;
     }
@@ -101,7 +101,7 @@ public abstract class Spawner : HuyMonoBehaviour
     public virtual void Despawn(Transform obj)
     {
         this.holders.Add(obj);
-        obj.SetParent(this.holderObj);
+        obj.SafeSetParent(this.holderObj);
         obj.gameObject.SetActive(false);
     }
 

@@ -121,7 +121,7 @@ public class Player : HuyMonoBehaviour
     {
         if (!this.itemTags.Contains(collision.tag)) return;
         DroppedItem droppedItem = collision.GetComponent<DroppedItem>();
-        Item leftItem = this.inventory.AddItem(droppedItem);
+        InventoryItem leftItem = this.inventory.AddItem(droppedItem);
 
         if (leftItem == null) DroppedItemSpawner.Instance.Despawn(droppedItem.transform);
         else droppedItem.Item = leftItem;

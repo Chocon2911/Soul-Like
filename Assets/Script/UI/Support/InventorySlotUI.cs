@@ -3,15 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class InventorySlotUI : HuyMonoBehaviour, IPointerClickHandler
+public class InventorySlotUI : HuyMonoBehaviour
 {
     //==========================================Variable==========================================
     [SerializeField] private Transform selectedBg;
     [SerializeField] private Transform hoveredBg;
-    [SerializeField] private InventoryItemUI item;
-    [SerializeField] private string inventoryItemUIName;
+    [SerializeField] private InventoryItemUI itemUI;
+    [SerializeField] private int index;
 
-    public InventoryItemUI Item => item;
+    //==========================================Get Set===========================================
+    public InventoryItemUI ItemUI 
+    {
+        get
+        {
+            return this.itemUI;
+        }
+        set
+        {
+            this.itemUI = value;
+            if (value == null) return;
+            value.transform.localPosition = Vector3.zero;
+            value.transform.SafeSetParent(transform);
+            value.CurrSlot = this;
+        }
+    }
+    public int Index { get => this.index; set => this.index = value; }
 
     //===========================================Unity============================================
     public override void LoadComponents()
@@ -19,11 +35,6 @@ public class InventorySlotUI : HuyMonoBehaviour, IPointerClickHandler
         base.LoadComponents();
         this.LoadComponent(ref this.selectedBg, transform.Find("SelectedImg"), "LoadSelectedBg()");
         this.LoadComponent(ref this.hoveredBg, transform.Find("HoveredImg"), "LoadHoveredBg()");
-    }
-
-    private void FixedUpdate()
-    {
-        this.selectedBg.gameObject.SetActive(false);
     }
 
     //===========================================Method===========================================
@@ -47,37 +58,23 @@ public class InventorySlotUI : HuyMonoBehaviour, IPointerClickHandler
         this.hoveredBg.gameObject.SetActive(false);
     }
 
-    public void CreateAndSetInventoryItem(InventoryItem inventoryItem, Transform dragArea)
+    public void SwapItemWithCurrInSlot(InventoryItemUI firstItemUI, InventoryItemUI secondItemUI)
     {
-        if (inventoryItem == null)
+        if (firstItemUI == this.itemUI)
         {
-            UISpawner.Instance.Despawn(this.item.transform);
-            this.item = null;
+            this.itemUI = secondItemUI;
+            this.itemUI.GetComponent<RectTransform>().SafeSetParent(transform);
+            this.itemUI.transform.position = Vector3.zero;
+            InventoryUI.Instance.CarriedItem = secondItemUI;
+        }
+        else if (secondItemUI == this.itemUI)
+        {
+            this.itemUI = firstItemUI;
+            this.itemUI.GetComponent<RectTransform>().SafeSetParent(transform);
+            this.itemUI.transform.position = Vector3.zero;
+            InventoryUI.Instance.CarriedItem = firstItemUI;
         }
 
-        else
-        {
-            Transform newInventoryItemUI = UISpawner.Instance.SpawnByName(this.inventoryItemUIName, Vector3.zero, Quaternion.identity);
-            newInventoryItemUI.SetParent(transform, false);
-            this.item = newInventoryItemUI.GetComponent<InventoryItemUI>();
-            this.item.Default(inventoryItem, dragArea);
-            this.item.gameObject.SetActive(true);
-        }
-    }
-
-    private void SetInventoryItemUI(InventoryItemUI inventoryItemUI)
-    {
-        inventoryItemUI.transform.SetParent(transform, false);
-        this.item = inventoryItemUI.GetComponent<InventoryItemUI>();
-    }
-
-    //=========================================Interface==========================================
-    void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
-    {
-        InventoryUI inventoryUI = InventoryUI.Instance;
-        if (eventData.button == PointerEventData.InputButton.Left && !inventoryUI.CarriedInventoryItemUI)
-        {
-            this.SetInventoryItemUI(inventoryUI.CarriedInventoryItemUI);
-        }
+        Debug.LogError("None of the itemUI is in this slot", gameObject);
     }
 }

@@ -4,28 +4,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class InventoryItem : Item
+public class InventoryItem
 {
-    [Header("===Inventory Item===")]
-    public int slotIndex;
+    [Header("InventoryItem")]
+    public string id;
+    public string itemName;
+    public Sprite icon;
+    public ItemType itemType;
+    public int maxAmount;
+    public int currAmount;
 
-    public InventoryItem(string id, string itemName, Sprite icon, ItemType itemType, 
-        int maxAmount, int currAmount, int slotIndex) : 
-        base(id, itemName, icon, itemType, maxAmount, currAmount)
+    public InventoryItem(string id, string itemName, Sprite icon, ItemType itemType, int maxAmount, int currAmount)
     {
-        this.slotIndex = slotIndex;
+        this.id = id;
+        this.itemName = itemName;
+        this.icon = icon;
+        this.itemType = itemType;
+        this.maxAmount = maxAmount;
+        this.currAmount = currAmount;
     }
 
-    public InventoryItem(Item item, int slotIndex) : base()
-    {
-        this.id = item.id;
-        this.itemName = item.itemName;
-        this.icon = item.icon;
-        this.itemType = item.itemType;
-        this.maxAmount = item.maxAmount;
-        this.currAmount = item.currAmount;
-        this.slotIndex = slotIndex;
-    }
-
-    public InventoryItem() : base() { }
+    public InventoryItem() { }
 }

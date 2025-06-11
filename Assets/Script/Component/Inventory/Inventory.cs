@@ -19,38 +19,36 @@ public class Inventory : HuyMonoBehaviour
     }
 
     //===========================================Method===========================================
-    public Item AddItem(DroppedItem item)
+    public InventoryItem AddItem(DroppedItem item)
     {
         return this.AddItem(item.Item);
     }
 
-    public Item AddItem(Item item)
+    public InventoryItem AddItem(InventoryItem item)
     {
-        int leftAmount = item.currAmount;
+        InventoryItem leftItem = item;
 
         foreach (InventoryItem inventoryItem in this.inventoryItems)
         {
             if (inventoryItem.itemName == item.itemName && inventoryItem.currAmount < inventoryItem.maxAmount)
             {
-                inventoryItem.currAmount += leftAmount;
+                inventoryItem.currAmount += leftItem.currAmount;
                 if (inventoryItem.currAmount > inventoryItem.maxAmount)
                 {
-                    leftAmount = inventoryItem.maxAmount - inventoryItem.currAmount;
+                    leftItem.currAmount = inventoryItem.currAmount - inventoryItem.maxAmount;
                     inventoryItem.currAmount = inventoryItem.maxAmount;
                 }
+                else return null;
             }
         }
 
         if (this.inventoryItems.Count < this.maxCap)
         {
-            InventoryItem newInventoryItem = new InventoryItem(item, InventoryUI.Instance.GetFirstEmptySlotIndex());
-            this.inventoryItems.Add(newInventoryItem);
-            InventoryUI.Instance.UpdateUI();
+            this.inventoryItems.Add(leftItem);
             return null;
         }
 
-        InventoryUI.Instance.UpdateUI();
-        return item;
+        return leftItem;
     }
 
     public void DropItem(InventoryItem item) 

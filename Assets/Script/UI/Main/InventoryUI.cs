@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Unity.IO.LowLevel.Unsafe;
-using Unity.VisualScripting;
+using System.Linq;
 using UnityEngine;
 
 public class InventoryUI : HuyMonoBehaviour
@@ -11,33 +10,25 @@ public class InventoryUI : HuyMonoBehaviour
     public static InventoryUI Instance => instance;
 
     [SerializeField] private Transform content;
-    [SerializeField] private GridLayout grid;
+    [SerializeField] private Transform container;
     [SerializeField] private List<InventoryItemUI> items;
     [SerializeField] private List<InventorySlotUI> slots;
-    [SerializeField] private Canvas canvas;
-    [SerializeField] private InventoryItemUI carriedInventoryItemUI;
     [SerializeField] private Transform dragArea;
+    [SerializeField] private InventoryItemUI carriedItem;
     [SerializeField] private string inventorySlotName;
 
     //==========================================Get Set===========================================
-    public Canvas Canvas => this.canvas;
-    public InventoryItemUI CarriedInventoryItemUI
-    {
-        get => this.carriedInventoryItemUI;
-        set => this.carriedInventoryItemUI = value;
-    }
-
     public Transform DragArea => dragArea;
+    public InventoryItemUI CarriedItem { get => this.carriedItem; set => this.carriedItem = value; }
 
     //===========================================Unity============================================
     public override void LoadComponents()
     {
         base.LoadComponents();
         this.LoadComponent(ref this.content, transform.Find("Content"), "LoadContent()");
-        this.LoadComponent(ref this.grid, transform.Find("Content").Find("Container"), "LoadGrid()");
-        this.LoadComponent(ref this.slots, transform.Find("Content").Find("Container"), "LoadSlots()");
-        this.LoadComponent(ref this.canvas, transform, "LoadCanvas()");
-        this.LoadComponent(ref this.dragArea, transform.Find("Content").Find("DragArea"), "LoadDragArea()");
+        this.LoadComponent(ref this.container, this.content.Find("Container"), "LoadGrid()");
+        this.LoadComponent(ref this.slots, this.content.Find("Container"), "LoadSlots()");
+        this.LoadComponent(ref this.dragArea, this.content.Find("DragArea"), "LoadDragArea()");
     }
 
     protected override void Awake()
@@ -53,72 +44,123 @@ public class InventoryUI : HuyMonoBehaviour
         base.Awake();
     }
 
+    private void Update()
+    {
+        this.Displaying();
+    }
+
     private void FixedUpdate()
     {
-        this.CarriedItemFollowMouse();
+        this.ItemFollowingMouse();
     }
 
+
+
+    //============================================================================================
     //===========================================Method===========================================
-    public void Show()
+    //============================================================================================
+
+    //==========================================Display===========================================
+    private void Displaying()
     {
-        this.UpdateUI();
-        this.content.gameObject.SetActive(true);
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            if (this.content.gameObject.activeSelf)
+            {
+                this.content.gameObject.SetActive(false);
+            }
+            else
+            {
+                this.Refresh();
+                this.content.gameObject.SetActive(true);
+            }
+        }
     }
 
-    public void Hide()
-    {
-        this.content.gameObject.SetActive(false);
-    }
-
-    public virtual void UpdateUI()
+    //==========================================Refresh===========================================
+    public void Refresh()
     {
         Inventory playerInventory = GameManager.Instance.Player.Inventory;
-        int newSlotAmount = playerInventory.MaxCap - this.slots.Count;
-        if (newSlotAmount > 0)
-        {
-            for (int i = 0; i < newSlotAmount; i++) this.AddNewSlot();
-        }
-
-        this.ClearInventorySlots();
-        foreach (InventoryItem inventoryItem in playerInventory.InventoryItems)
-        {
-            if (inventoryItem.slotIndex == -1) continue; // Item on dragging
-            this.slots[inventoryItem.slotIndex].CreateAndSetInventoryItem(inventoryItem, this.dragArea);
-        }
+        int cap = playerInventory.MaxCap;
+        this.UpdateSlots(cap);
+        List<InventoryItem> leftItems = UpdateItemInfo(playerInventory.InventoryItems);
+        this.AddItemsToEmptySlots(leftItems);
     }
     
-    public int GetFirstEmptySlotIndex()
+    private void UpdateSlots(int cap) 
     {
-        int index = 0;
-        foreach (InventorySlotUI slot in this.slots)
+        int newSlotAmount = cap - this.slots.Count;
+        if (newSlotAmount <= 0) return;
+
+        for (int i = 0; i < newSlotAmount; i++)
         {
-            if (slot.Item == null) return index;
-            index++;
-        }
+            Transform newSlot = UISpawner.Instance.SpawnByCode(UISpawnCode.INVENTORY_SLOT, Vector3.zero, Quaternion.identity);
+            RectTransform rectTransform = newSlot.GetComponent<RectTransform>();
+            rectTransform.SafeSetParent(this.container.transform);
+            newSlot.transform.SetSiblingIndex(this.slots.Count);
+            newSlot.gameObject.SetActive(true);
 
-        Debug.LogError("No empty slot", gameObject);
-        return -1; // No empty slot
-    }
-
-    private void AddNewSlot()
-    {
-        Transform newSlot = UISpawner.Instance.SpawnByName(this.inventorySlotName, Vector3.zero, Quaternion.identity);
-        newSlot.SetParent(this.grid.transform, false);
-        newSlot.gameObject.SetActive(true);
-        this.slots.Add(newSlot.GetComponent<InventorySlotUI>());
-    }
-
-    private void ClearInventorySlots()
-    {
-        foreach (InventorySlotUI slot in this.slots)
-        {
-            slot.CreateAndSetInventoryItem(null, null);
+            InventorySlotUI slot = newSlot.GetComponent<InventorySlotUI>();
+            slot.Index = slot.transform.GetSiblingIndex();
+            this.slots.Add(slot);
         }
     }
 
-    private void CarriedItemFollowMouse()
+    private List<InventoryItem> UpdateItemInfo(List<InventoryItem> inventoryItems)
     {
-        if (this.carriedInventoryItemUI == null) return;
-        this.carriedInventoryItemUI.transform.position = InputManager.Instance.MousePos;
+        List<InventoryItem> leftItems = inventoryItems.ToList();
+
+        foreach (InventoryItem item in inventoryItems)
+        {
+            foreach (InventorySlotUI slot in this.slots)
+            {
+                if (slot.ItemUI == null || slot.ItemUI.Item == null || slot.ItemUI.Item != item) continue;
+                slot.ItemUI.Item = item;
+                leftItems.Remove(item);
+            }
+        }
+
+        return leftItems;
+    }
+
+    private void AddItemsToEmptySlots(List<InventoryItem> inventoryItems)
+    {
+        List<InventoryItem> leftItems = inventoryItems.ToList();
+        foreach (InventoryItem leftItem in inventoryItems)
+        {
+            foreach (InventorySlotUI slot in this.slots)
+            {
+                if (slot.ItemUI != null) continue;
+                Transform newItemUI = UISpawner.Instance.SpawnByCode(UISpawnCode.INVENTORY_ITEM, Vector3.zero, Quaternion.identity);
+                newItemUI.gameObject.SetActive(true);
+                InventoryItemUI itemUI = newItemUI.GetComponent<InventoryItemUI>();
+                if (itemUI == null) Debug.Log("Fuck");
+                slot.ItemUI = itemUI;
+                itemUI.CurrSlot = slot;
+
+                itemUI.Default(leftItem, this.dragArea);
+                leftItems.Remove(leftItem);
+                break;
+            }
+        }
+
+        if (leftItems.Count <= 0) return;
+        Debug.LogError("AddItemsToEmptySlots: " + leftItems.Count + " items left", gameObject);
+    }
+
+    //=====================================Item Follow Mouse======================================
+    private void ItemFollowingMouse()
+    {
+        if (this.carriedItem == null) return;
+        this.carriedItem.transform.position = InputManager.Instance.MousePos;
+    }
+
+    //===========================================Other============================================
+    private void Default()
+    {
+        foreach (InventorySlotUI slot in this.slots)
+        {
+            slot.Index = slot.transform.GetSiblingIndex();
+        }
     }
 }

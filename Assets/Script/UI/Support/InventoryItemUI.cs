@@ -11,9 +11,14 @@ public class InventoryItemUI : HuyMonoBehaviour, IPointerClickHandler
     [SerializeField] private RectTransform rectTransform;
     [SerializeField] private Image icon;
     [SerializeField] private InventoryItem item;
-    [SerializeField] private Transform dragArea;
 
     //==========================================Get Set===========================================
+    public InventorySlotUI CurrSlot
+    {
+        get => this.currSlot;
+        set => this.currSlot = value;
+    }
+
     public InventoryItem Item 
     {
         get
@@ -27,8 +32,6 @@ public class InventoryItemUI : HuyMonoBehaviour, IPointerClickHandler
         }
     }
 
-    public InventorySlotUI CurrSlot { get => currSlot; set => currSlot = value; }
-
     //===========================================Unity============================================
     public override void LoadComponents()
     {
@@ -38,10 +41,9 @@ public class InventoryItemUI : HuyMonoBehaviour, IPointerClickHandler
     }
 
     //===========================================Method===========================================
-    public void Default(InventoryItem inventoryItem, Transform dragArea)
+    public void Default(InventoryItem inventoryItem)
     {
         this.Item = inventoryItem;
-        this.dragArea = dragArea;
     }
 
     //=========================================Interface==========================================
@@ -49,23 +51,28 @@ public class InventoryItemUI : HuyMonoBehaviour, IPointerClickHandler
     {
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            transform.SetParent(this.dragArea);
             InventoryUI inventoryUI = InventoryUI.Instance;
-            if (inventoryUI.CarriedItem != null)
+            if (inventoryUI.CarriedItem != null) // Currently holding item
             {
                 List<RaycastResult> results = new List<RaycastResult>();
                 EventSystem.current.RaycastAll(eventData, results);
                 foreach (RaycastResult result in results)
                 {
-                    InventorySlotUI inventorySlotUI = result.gameObject.GetComponent<InventorySlotUI>();
-                    if (inventorySlotUI == null) continue;
-                    else if (inventorySlotUI.ItemUI == null) inventorySlotUI.ItemUI = this;
-                    else inventorySlotUI.SwapItemWithCurrInSlot(this, inventoryUI.CarriedItem);
-                    inventoryUI.CarriedItem = null;
+                    InventorySlotUI slot = result.gameObject.GetComponent<InventorySlotUI>();
+                    if (slot == null) continue;
+                    else if (slot.ItemUI == null)
+                    {
+                        inventoryUI.AttachItemToSlot(this, slot);
+                        inventoryUI.CarriedItem = null;
+                    }
+                    else
+                    {
+                        slot.SwapWithCurrItem(inventoryUI.CarriedItem);
+                    }
                     break;
                 }
             }
-            else
+            else // Currently not holding item
             {
                 inventoryUI.CarriedItem = this;
                 this.currSlot.ItemUI = null;

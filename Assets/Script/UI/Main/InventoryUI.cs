@@ -18,16 +18,24 @@ public class InventoryUI : HuyMonoBehaviour
     [SerializeField] private string inventorySlotName;
 
     //==========================================Get Set===========================================
-    public Transform DragArea => dragArea;
-    public InventoryItemUI CarriedItem { get => this.carriedItem; set => this.carriedItem = value; }
+    public InventoryItemUI CarriedItem
+    {
+        get => this.carriedItem;
+        set
+        {
+            this.carriedItem = value;
+            if (this.carriedItem == null) return;
+            this.carriedItem.transform.SetParent(this.dragArea);
+        }
+    }
 
     //===========================================Unity============================================
     public override void LoadComponents()
     {
         base.LoadComponents();
         this.LoadComponent(ref this.content, transform.Find("Content"), "LoadContent()");
-        this.LoadComponent(ref this.container, this.content.Find("Container"), "LoadGrid()");
-        this.LoadComponent(ref this.slots, this.content.Find("Container"), "LoadSlots()");
+        this.LoadComponent(ref this.container, this.content.Find("Scroll").Find("Container"), "LoadGrid()");
+        this.LoadComponent(ref this.slots, this.content.Find("Scroll").Find("Container"), "LoadSlots()");
         this.LoadComponent(ref this.dragArea, this.content.Find("DragArea"), "LoadDragArea()");
     }
 
@@ -134,11 +142,9 @@ public class InventoryUI : HuyMonoBehaviour
                 Transform newItemUI = UISpawner.Instance.SpawnByCode(UISpawnCode.INVENTORY_ITEM, Vector3.zero, Quaternion.identity);
                 newItemUI.gameObject.SetActive(true);
                 InventoryItemUI itemUI = newItemUI.GetComponent<InventoryItemUI>();
-                if (itemUI == null) Debug.Log("Fuck");
-                slot.ItemUI = itemUI;
-                itemUI.CurrSlot = slot;
+                this.AttachItemToSlot(itemUI, slot);
 
-                itemUI.Default(leftItem, this.dragArea);
+                itemUI.Default(leftItem);
                 leftItems.Remove(leftItem);
                 break;
             }
@@ -156,6 +162,14 @@ public class InventoryUI : HuyMonoBehaviour
     }
 
     //===========================================Other============================================
+    public void AttachItemToSlot(InventoryItemUI item, InventorySlotUI slot)
+    {
+        slot.ItemUI = item;
+        item.transform.localPosition = Vector3.zero;
+        item.transform.SafeSetParent(slot.transform);
+        item.CurrSlot = slot;
+    }
+    
     private void Default()
     {
         foreach (InventorySlotUI slot in this.slots)

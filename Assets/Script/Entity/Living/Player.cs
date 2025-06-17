@@ -65,7 +65,6 @@ public class Player : HuyMonoBehaviour
         if (items.Count <= 0) return;
         items = this.GetValidItemsByRayCast(items);
         this.MovingItems(items);
-        
     }
 
     protected virtual List<DroppedItem> GetItemsInRange()

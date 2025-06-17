@@ -14,18 +14,8 @@ public class InventorySlotUI : HuyMonoBehaviour
     //==========================================Get Set===========================================
     public InventoryItemUI ItemUI 
     {
-        get
-        {
-            return this.itemUI;
-        }
-        set
-        {
-            this.itemUI = value;
-            if (value == null) return;
-            value.transform.localPosition = Vector3.zero;
-            value.transform.SafeSetParent(transform);
-            value.CurrSlot = this;
-        }
+        get => this.itemUI;
+        set => this.itemUI = value;
     }
     public int Index { get => this.index; set => this.index = value; }
 
@@ -58,23 +48,14 @@ public class InventorySlotUI : HuyMonoBehaviour
         this.hoveredBg.gameObject.SetActive(false);
     }
 
-    public void SwapItemWithCurrInSlot(InventoryItemUI firstItemUI, InventoryItemUI secondItemUI)
+    public void SwapWithCurrItem(InventoryItemUI newItemUI)
     {
-        if (firstItemUI == this.itemUI)
-        {
-            this.itemUI = secondItemUI;
-            this.itemUI.GetComponent<RectTransform>().SafeSetParent(transform);
-            this.itemUI.transform.position = Vector3.zero;
-            InventoryUI.Instance.CarriedItem = secondItemUI;
-        }
-        else if (secondItemUI == this.itemUI)
-        {
-            this.itemUI = firstItemUI;
-            this.itemUI.GetComponent<RectTransform>().SafeSetParent(transform);
-            this.itemUI.transform.position = Vector3.zero;
-            InventoryUI.Instance.CarriedItem = firstItemUI;
-        }
+        Debug.Log("Hello");
+        InventoryItemUI tempItemUI = this.itemUI;
+        tempItemUI.CurrSlot = null;
+        InventoryUI.Instance.CarriedItem = tempItemUI;
+        InventoryUI.Instance.AttachItemToSlot(newItemUI, this);
 
-        Debug.LogError("None of the itemUI is in this slot", gameObject);
+        return;
     }
 }
